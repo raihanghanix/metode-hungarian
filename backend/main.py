@@ -10,7 +10,7 @@ cors = CORS(app, resources={r"/data": {"origins": "https://metode-hungarian-clie
 
 
 # Create a post route
-@app.route('/data', methods=['GET', 'POST'])
+@app.route('/api', methods=['GET', 'POST'])
 def get_data():
     res = request.get_json()
     data_to_send = c.calc(res["data"], res["type"])
