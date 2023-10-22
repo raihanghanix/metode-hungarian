@@ -1,4 +1,10 @@
 {
   "version": 2,
-  "builds": [{ "src": "main.py", "use": "@now/python" }]
+  "builds": [
+    {
+      "src": "main.py",
+      "use": "@now/python",
+      "config": { "runtime": "python3.11.5" }
+    }
+  ]
 }
