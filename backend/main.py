@@ -5,8 +5,8 @@ import calc as c
 # Create a Flask application
 app = Flask(__name__)
 
-# Configure CORS to allow requests from http://localhost:5173
-cors = CORS(app, resources={r"/data": {"origins": "http://localhost:5173"}})
+# Configure CORS to allow requests from https://metode-hungarian-client.netlify.app/
+cors = CORS(app, resources={r"/data": {"origins": "https://metode-hungarian-client.netlify.app/"}})
 
 
 # Create a post route
