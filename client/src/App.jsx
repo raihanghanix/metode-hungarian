@@ -61,7 +61,7 @@ function App() {
 
     // Kirim data ke server
     setLoading(true);
-    fetch("http://localhost:5000/api", {
+    fetch("https://raihanghanix.pythonanywhere.com/api", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
