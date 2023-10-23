@@ -62,12 +62,12 @@ function App() {
     // Kirim data ke server
     setLoading(true);
     fetch("https://raihanghanix.pythonanywhere.com/api", {
+      mode: "cors",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
-      mode: "no-cors",
       body: JSON.stringify({ data: matrix, type: tipe }),
     })
       .then((response) => response.json())
