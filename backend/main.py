@@ -6,7 +6,7 @@ import calc as c
 app = Flask(__name__)
 
 # Configure CORS to allow requests from https://metode-hungarian-client.netlify.app/
-cors = CORS(app, resources={r"/data": {"origins": "https://metode-hungarian-client.netlify.app/"}})
+CORS(app)
 
 @app.route('/')
 def home():
