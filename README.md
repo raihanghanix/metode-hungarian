@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Overview
 
-## Getting Started
+Link aplikasi: [`https://metode-hungarian-client.netlify.app/`](https://metode-hungarian-client.netlify.app/). Untuk cara penggunaan dapat dilihat dengan cara meng-click tanda (**?**) pada pojok kanan bawah website.
 
-First, run the development server:
+![Screenshot aplikasi](client/public/app.jpg)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+> _Metode Hungarian adalah salah satu algoritma yang digunakan untuk menyelesaikan persoalan masalah assignment (penugasan), metode ini ditemukan dan dipublikasikan oleh Harold Kuhn pada tahun 1955. Algoritma Hungarian mempunyai dua solusi yaitu solusi minimal dan solusi maksimal._
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Aplikasi ini dibuat untuk menghitung biaya total minimal atau waktu yang diperlukan untuk mengerjakan beberapa tugas (kasus minimasi). Dan dapat juga digunakan untuk menghitung hasil yang maksimal, misalnya hasil produksi dan keuntungan (kasus maksimasi).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Aplikasi ini dibuat dengan bahasa pemrograman Python sebagai server dan Javascript sebagai client. Library yang digunakan adalah:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Flask, Flask_cors, dan Munkres (Python)
 
-## Learn More
+React + Vite + Tailwind (Javascript).
 
-To learn more about Next.js, take a look at the following resources:
+## Contoh Data
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Berikut adalah data yang dapat digunakan sebagai contoh: [Data Studi Kasus](client/data-studi-kasus.txt)

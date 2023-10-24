@@ -1,30 +1,48 @@
+# GET: https://raihanghanix.pythonanywhere.com/
+# POST: https://raihanghanix.pythonanywhere.com/api
+
+# Import modul yang dibutuhkan
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import calc as c
 
-# Create a Flask application
+# Membuat aplikasi flask
 app = Flask(__name__)
 
-# Configure CORS to allow requests from https://metode-hungarian-client.netlify.app/
+# Mengatur CORS (Cross-Origin Resource Sharing) untuk mengizinkan request 
+# dari mana saja dan mengatur header yang digunakan (Content-Type)
 CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
+# Membuat route homepage yang menapilkan pesan "Hello, World!"
 @app.route('/')
 def home():
     return "Hello, World!"
 
-# Create a post route
-@app.route('/api', methods=['GET', 'POST'])
+# Membuat API route dengan method POST
+@app.route('/api', methods=['POST'])
 def get_data():
+    # Menerima data JSON dari request (client)    
     res = request.get_json()
+    
+    # Jika tidak ada data yang diterima, maka kirimkan JSON response
+    # dengan pesan error
     if not res: return jsonify({'error': 'no data received'})
+    
+    # Menghitung data yang diterima dengan function calc() 
+    # dari modul calc.py
     data_to_send = c.calc(res["data"], res["type"])
-    # Create a dictionary with the data you want to send as JSON
+    
+    # Membuat sebuah dictionary berisi data yang akan dikirim
+    # dalam bentuk JSON
     data = {
         "data": data_to_send
     }
-    # Return the data as JSON response
+    
+    # Return data sebagai JSON response
     return jsonify(data)
 
-
+# Menjalankan aplikasi flask dalam mode debug (development)
+# Hapus jika aplikasi akan di-deploy
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(debug=True)

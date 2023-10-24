@@ -1,3 +1,5 @@
+// Link program: https://metode-hungarian-client.netlify.app/
+
 /* eslint-disable react-hooks/exhaustive-deps */
 
 // Mengimpor dua function dari library React
@@ -12,7 +14,11 @@ const initialBaris = namaBaris[0]; // P
 const initialKolom = namaKolom[0]; // K
 
 // Main function (App) yang akan menampilkan HTML
+// Berisi beberapa state dan function yang mengatur logika program
+// Function App akan re-render ketika salah satu state berubah,
+// ini berfungsi untuk mengupdate tampilan HTML
 function App() {
+  // const [namaState, setState] = useState(nilaiAwalState);
   const [jumlahBaris, setJumlahBaris] = useState(2);
   const [kolom, setKolom] = useState({});
   const [data, setData] = useState({ row: [], col: [], val: [], total: [] });
@@ -22,6 +28,7 @@ function App() {
   const [showHelp, setShowHelp] = useState(false);
   const [showNav, setShowNav] = useState(false);
 
+  // Function untuk mengubah state `kolom` ketika input dirubah
   function handleChange(e) {
     setKolom((prev) => ({
       ...prev,
@@ -33,18 +40,26 @@ function App() {
     // Insialisasi matriks
     const matrix = [];
 
-    // loop
+    // Loop untuk merubah string menjadi array dengan tipe data number
+    // Contoh: "-41,32,25" menjadi [41, 32, 25]
     for (let i in kolom) {
+      // Split string dengan koma sebagai pemisah
+      // Contoh: "41,32,25" menjadi ["41", "32", "25"]
       let split = kolom[i].split(",");
       let newArr = [];
       for (let i in split) {
-        newArr.push(Number(split[i]));
+        // Push angka ke array, dan merubah tipe data string menjadi number
+        // Semua angka diubah menjadi positif atau absolut dengan Math.abs
+        newArr.push(Math.abs(Number(split[i])));
       }
+      // Push array ke matrix yang akan dikirim ke server
       matrix.push(newArr);
     }
 
+    // Jika length matrix nol (matrix kosong), maka return
     if (matrix.length === 0) return;
 
+    // Loop untuk mengecek apakah jumlah angka pada masing-masing baris sama
     for (let i in matrix) {
       if (matrix[i].length < Number(jumlahBaris))
         return alert(`Angka pada baris ke-${Number(i) + 1} kurang!`);
@@ -52,14 +67,19 @@ function App() {
         return alert(`Angka pada baris ke-${Number(i) + 1} berlebih!`);
     }
 
+    // Jika jumlah angka pada masing-masing baris tidak sama dengan jumlah baris,
+    // maka return sebuah alert dengan pesan
     if (matrix.length !== Number(jumlahBaris))
       return alert(
         `Jumlah angka tidak sama dengan jumlah baris (${jumlahBaris})`
       );
 
+    // Set state `setArr` dengan matrix sebelumnya
     setArr(matrix);
 
-    // Kirim data ke server
+    // Set state `loading` menjadi true, untuk menampilkan loading, kemudian
+    // melakukan request data dari server dengan method POST dan content-type JSON
+    // dan merubah value javascript object menjadi JSON string dengan JSON.stringify
     setLoading(true);
     fetch("https://raihanghanix.pythonanywhere.com/api", {
       mode: "cors",
@@ -68,25 +88,34 @@ function App() {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
+      // Berisi matrix dan tipe optimasi (maksimasi atau minimasi)
       body: JSON.stringify({ data: matrix, type: tipe }),
     })
+      // Merubah response dari server menjadi JSON
       .then((response) => response.json())
+      // Set state `data` dengan response dari server
       .then((data) => setData(data.data))
+      // Jika terjadi error, maka return alert dengan pesan error
       .catch((err) => {
         return alert(err);
       })
+      // Set state `loading` menjadi false, untuk menghilangkan loading
       .finally(() => setLoading(false));
   }
 
+  // Jika state `jumlahBaris` berubah, maka panggil function setData dan setKolom
+  // Dengan kata lain, reset state `data` dan `kolom` jika `jumlahBaris` berubah
   useEffect(() => {
     setData({ row: [], col: [], val: [], total: [] });
     setKolom({});
   }, [jumlahBaris]);
 
+  // Jika state `tipe` berubah, maka panggil function handleClick
   useEffect(() => {
     handleClick();
   }, [tipe]);
 
+  // Return HTML untuk ditampilkan
   return (
     <div className="w-screen h-screen flex justify-center items-center">
       <div className="w-full h-full rounded-lg shadow-lg flex lg:flex-row flex-col bg-white opacity-100 relative">
@@ -122,7 +151,6 @@ function App() {
               placeholder={`Jumlah ${namaBaris}...`}
             />
           </div>
-
           <hr className="border-black" />
           <div className="flex flex-col gap-2">
             {Array.from({ length: jumlahBaris }).map((jb, i) => (
@@ -243,11 +271,11 @@ function App() {
           )}
         </div>
         {loading ? (
-          <div className="flex-1 p-4 flex flex-col gap-4 justify-center items-center overflow-auto">
+          <div className="flex-1 max-lg:p-4 p-8 flex flex-col gap-4 justify-center items-center overflow-auto">
             <img width={128} src="/loader.svg" alt="loading" />
           </div>
         ) : (
-          <div className="flex-1 p-4 flex flex-col gap-4 overflow-auto">
+          <div className="flex-1 max-lg:p-4 p-8 flex flex-col gap-4 overflow-auto">
             {data.row.length === 0 && (
               <div className="w-full h-full">
                 <div className="flex h-full justify-center items-center text-center flex-col gap-4">
@@ -408,5 +436,5 @@ function App() {
   );
 }
 
-// Ekspor main function (App)
+// Ekspor main function (App) untuk digunakan di file main.jsx
 export default App;
